@@ -45,9 +45,9 @@ model User {
   creations     Creation[]
   sessions      Session[]
 }
-
 model Creation {
   id          String   @id @default(cuid())
+  mode        String?
   prompt      String?
   imageUrl    String?
   aspectRatio String?
@@ -55,6 +55,7 @@ model Creation {
   createdAt   DateTime @default(now())
   userId      String
   error       String?
+  creditsRefunded Boolean  @default(false)
   requestId   String?  @unique
   status      String   @default("processing")
   duration    Int?

@@ -16,6 +16,14 @@ export const AIService = {
     const res = resolution || "720p";
     const mod = model || "lite";
     
+    // Reference pricing overrides model pricing
+    if (isReference) {
+      if (res === "720p") return 120;
+      if (res === "1080p") return 160;
+      if (res === "4k") return 360;
+      return 120; // default 720p cost
+    }
+
     // Quality pricing
     if (mod === "quality") {
       if (res === "720p") return 500;
@@ -38,14 +46,6 @@ export const AIService = {
       if (res === "1080p") return 80;
       if (res === "4k") return 300;
       return 60; // default 720p cost
-    }
-    
-    // Reference pricing (overrides model if mode is reference-to-video)
-    if (isReference) {
-      if (res === "720p") return 120;
-      if (res === "1080p") return 160;
-      if (res === "4k") return 360;
-      return 120; // default 720p cost
     }
     
     return 60; // Ultimate fallback
@@ -142,6 +142,7 @@ export const AIService = {
         await creationModel.create({
           data: {
             userId,
+            mode,
             prompt,
             aspectRatio: aspect_ratio,
             resolution,

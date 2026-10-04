@@ -286,6 +286,14 @@ export default function Home() {
     const res = resolution || "720p";
     const mod = model || "lite";
 
+    // Reference pricing overrides model pricing
+    if (isReference) {
+      if (res === "720p") return 120;
+      if (res === "1080p") return 160;
+      if (res === "4k") return 360;
+      return 120;
+    }
+
     // Quality pricing
     if (mod === "quality") {
       if (res === "720p") return 500;
@@ -305,13 +313,6 @@ export default function Home() {
       if (res === "720p") return 60;
       if (res === "1080p") return 80;
       if (res === "4k") return 300;
-    }
-
-    // Reference pricing (overrides model if mode is reference-to-video)
-    if (isReference) {
-      if (res === "720p") return 120;
-      if (res === "1080p") return 160;
-      if (res === "4k") return 360;
     }
 
     return 60; // Default
